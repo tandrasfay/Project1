@@ -1,0 +1,38 @@
+# platform       x86_64-pc-mingw32            
+# arch           x86_64                       
+# os             mingw32                      
+# system         x86_64, mingw32              
+# status                                      
+# major          2                            
+# minor          15.1                         
+# year           2012                         
+# month          06                           
+# day            22                           
+# svn rev        59607                        
+# language       R                            
+# version.string R version 2.15.1 (2012-
+
+# Before running this R code, download all of the txt files in the repo: Visual, Aural, ReadWrite, and Kinesthetic
+
+setwd(Sys.getenv("HOME"));
+visual_data = read.table("Visual.txt", sep = "")
+aural_data = read.table("Aural.txt", sep = "")
+readwrite_data = read.table("ReadWrite.txt", sep = "")
+kinesthetic_data = read.table("Kinesthetic.txt", sep = "")
+
+visual_data = factor(visual_data$V2, levels = 1:15)
+aural_data = factor(aural_data$V2, levels = 1:15)
+readwrite_data = factor(readwrite_data$V2, levels = 1:15)
+kinesthetic_data = factor(kinesthetic_data$V2, levels = 1:15)
+
+attach(mtcars)
+par(mfrow=c(4,1))
+
+plot(visual_data, col = 'blue', main = "Number of People in each Category for Visual Learning", xlab = "Categories", ylab = "Number of People", xlim = c(0,15), width = .85)
+plot(aural_data, col = 'orange', main = "Number of People in each Category for Aural Learning", xlab = "Categories", ylab = "Number of People", xlim = c(0,15), width = .85)
+plot(readwrite_data, col = 'yellow', main = "Number of People in each Category for Read/Write Learning", xlab = "Categories", ylab = "Number of People", xlim = c(0,15), width = .85)
+plot(kinesthetic_data, col = 'red', main = "Number of People in each Category for Kinesthetic Learning", xlab = "Categories", ylab = "Number of People", xlim = c(0,15), width = .85)
+
+par(mfrow=c(1,1))
+data = data.frame(table(visual_data), table(aural_data), table(readwrite_data), table(kinesthetic_data))
+matplot(data, type = "l")
