@@ -12,7 +12,7 @@
 # language       R                            
 # version.string R version 2.15.1 (2012-
 
-# Before running this R code, download all of the txt files in the repo: Visual, Aural, ReadWrite, and Kinesthetic
+# Before running this R code, download all of the txt files in the repo: Visual, Aural, ReadWrite, and Kinesthetic, and truefalse
 
 setwd(Sys.getenv("HOME"));
 visual_data = read.table("Visual.txt", sep = "")
@@ -35,4 +35,32 @@ plot(kinesthetic_data, col = 'red', main = "Number of People in each Category fo
 
 par(mfrow=c(1,1))
 data = data.frame(table(visual_data), table(aural_data), table(readwrite_data), table(kinesthetic_data))
-matplot(data, type = "l")
+plot(data)
+legend("bottomright", col = c('blue','orange','yellow','red'), legend = c('visual', 'aural', 'read/write', 'kinesthetic'))
+
+
+
+tools = read.table("truefalse.txt", sep = "", colClasses = "character")
+
+strings_in_df = tools[suppressWarnings(is.na(as.numeric(tools[,1]))),]
+colnames = strings_in_df$V2[-13]
+
+m = matrix(0, ncol = 12, nrow = 48)
+data = data.frame(m)
+colnames(data) = colnames
+
+tools = tools[suppressWarnings(!is.na(as.numeric(tools[,1]))),]
+for (i in 1:length(colnames))
+  data[, i] = tools$V2[((i-1)*48+1):(i*48)]
+
+boolean_data = (data == "True")
+boolean_data = boolean_data*1
+
+m = matrix(0, ncol = 1, nrow = 12)
+plot_data = data.frame(m)
+rownames(plot_data) = colnames
+
+for (i in 1:12)
+  plot_data[i,] = sum(boolean_data[,i])
+
+dotchart(plot_data[,1], labels = rownames(plot_data), main = "Number of Leaders on each Topic", xlab = "Number of People")
