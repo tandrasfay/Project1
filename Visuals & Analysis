@@ -1,0 +1,54 @@
+Visuals + Analysis
+# Tim
+# PLOT 1
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Create a list of 0’s of length n
+def zerolistmaker(n):
+	listofzeros = [0] * n
+	return listofzeros
+
+# Goes through each cleaned column, parses the data into groups based on the number(like the # factor data type in R)
+def parseQData(col, output_list):
+    for i in range(len(col) - 1):
+        if col[i] != 'NA':
+            output_list[int(col[i])] = output_list[int(col[i])] + 1
+
+visual_data = zerolistmaker(len(Visual))
+aural_data = zerolistmaker(len(Aural))
+readwrite_data = zerolistmaker(len(ReadWrite))
+kinesthetic_data = zerolistmaker(len(Kinesthetic))
+
+parseQData(Visual, visual_data)
+parseQData(Aural, aural_data)
+parseQData(ReadWrite, readwrite_data)
+parseQData(Kinesthetic, kinesthetic_data)
+
+# Now time for graphs
+N = max(len(visual_data), len(aural_data), len(readwrite_data), len(kinesthetic_data))
+ind = np.arange(N)
+width = .35
+
+fig, ax = plt.subplots()
+rects1 = ax.bar(ind, visual_data, width, color = 'b')
+rects2 = ax.bar(ind + width, aural_data, width, color = 'y')
+rects3 = ax.bar(ind + 2*width, readwrite_data, width, color = 'r')
+rects4 = ax.bar(ind + 3*width, kinesthetic_data, width, color = 'g')
+
+# Labels
+ax.set_title('Amount of People per Score')
+ax.set_ylabel('Number of People')
+ax.set_xlabel('Score')
+ax.legend( rects1[0], rects2[0], rects3[0], rects4[0], ('Visual','Aural','Read/Write','Kinesthetic'))
+
+ax.set_xticks(ind+3*width)
+ax.set_xticklabels(1:N)
+
+plt.show()
+
+# PLOT 2
+
+def parseSkills(col, output_value)
+    for i in len()
